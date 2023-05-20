@@ -5,7 +5,10 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "rchat",
+  title: {
+    default: "rchat",
+    template: `%s | rchat`,
+  },
   description: "チャットアプリ",
 };
 
