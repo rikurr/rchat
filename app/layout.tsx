@@ -4,7 +4,6 @@ import { ToasterProvider } from "@/common/providers/ToasterProvider";
 import { AuthProvider } from "@/features/auth/AuthProvider";
 import { Header } from "../common/layouts/Header";
 import { cn } from "@/lib/utils";
-import { AuthGuard } from "@/features/auth/AuthGuard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +26,9 @@ export default function RootLayout({
         <ToasterProvider>
           <body className={cn("h-screen", inter.className)}>
             <Header />
-            <AuthGuard>
+            <main className="py-10">
               {children}
-            </AuthGuard>
+            </main>
           </body>
         </ToasterProvider>
       </AuthProvider>
