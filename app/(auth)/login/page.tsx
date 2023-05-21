@@ -1,83 +1,63 @@
 "use client";
 
-import Link from "next/link";
+import { Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/common/components/ui/button";
+import { Input } from "@/common/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/form";
+} from "@/common/components/ui/form";
 import { useForm } from "react-hook-form";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  sendEmailVerification,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { initializeFirebaseApp } from "@/lib/firebase";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
   email: z.string().email({
-    message: "Please enter a valid email.",
+    message: "メールアドレスを入力してください",
   }),
   password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
+    message: "パスワードは8文字以上入力してください",
   }),
 });
 
 export default function SignUp() {
+  const { push } = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     try {
       initializeFirebaseApp();
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password,
-      );
-      await sendEmailVerification(userCredential.user);
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      form.reset();
+      push("rooms");
     } catch (e) {
       if (e instanceof FirebaseError) {
         console.dir(e);
       }
     }
+    setIsLoading(false);
   };
 
   return (
-    <div className="max-w-sm sm:max-w-lg mx-auto">
+    <div>
+      <h1 className="text-xl font-bold">ログイン</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="username"
-            render={() => (
-              <FormItem>
-                <FormLabel>ユーザーネーム</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...form.register("username")} />
-                </FormControl>
-                <FormDescription>
-                  チャットルームで表示される名前です。
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-4">
           <FormField
             control={form.control}
             name="email"
@@ -100,17 +80,25 @@ export default function SignUp() {
                 <FormControl>
                   <Input placeholder="" {...form.register("password")} />
                 </FormControl>
-                <FormDescription>
-                  8文字以上のパスワードを入力してください。
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit">アカウント作成</Button>
+          <Button type="submit" className="w-full">
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            ログイン
+          </Button>
         </form>
       </Form>
+      <hr className="my-6 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+      <Button
+        className="w-full"
+        variant="secondary"
+        onClick={() => push("/signup")}
+      >
+        新規作成はこちら
+      </Button>
     </div>
   );
 }

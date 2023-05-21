@@ -1,6 +1,10 @@
-import { initializeFirebaseApp } from "@/lib/firebase";
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
+import { ToasterProvider } from "@/common/providers/ToasterProvider";
+import { AuthProvider } from "@/features/auth/AuthProvider";
+import { Header } from "../common/layouts/Header";
+import { cn } from "@/lib/utils";
+import { AuthGuard } from "@/features/auth/AuthGuard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +16,6 @@ export const metadata = {
   description: "チャットアプリ",
 };
 
-initializeFirebaseApp();
 export default function RootLayout({
   children,
 }: {
@@ -20,7 +23,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>{children}</body>
+      <AuthProvider>
+        <ToasterProvider>
+          <body className={cn("h-screen", inter.className)}>
+            <Header />
+            <AuthGuard>
+              {children}
+            </AuthGuard>
+          </body>
+        </ToasterProvider>
+      </AuthProvider>
     </html>
   );
 }
