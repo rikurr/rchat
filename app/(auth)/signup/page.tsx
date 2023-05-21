@@ -21,21 +21,12 @@ import {
   AvatarImage,
 } from "@/common/components/ui/avatar";
 import { useForm } from "react-hook-form";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  sendEmailVerification,
-  updateProfile,
-} from "firebase/auth";
+
 import { FirebaseError } from "firebase/app";
-import { initializeFirebaseApp } from "@/lib/firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FileUploadButton } from "@/common/components/ui/fileUpload";
-import { uploadUserProfileImageToStorage } from "@/features/auth/uploadUserProfileImageToStorage";
-import {
-  createUserProfileDocument,
-} from "@/features/auth/createUserProfileDocument";
+import { signupUser } from '@/features/auth/signupUser';
 
 const formSchema = z.object({
   displayName: z.string().min(2, {
@@ -60,23 +51,13 @@ export default function SignUp() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      initializeFirebaseApp();
-      const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password,
-      );
-
-      const storageUrl = photoURL
-        ? await uploadUserProfileImageToStorage(userCredential.user.uid, photoURL)
-        : null;
-      await updateProfile(userCredential.user, {
+      await signupUser({
         displayName: values.displayName,
-        photoURL: storageUrl,
-      });
-      createUserProfileDocument(userCredential.user)
-      await sendEmailVerification(userCredential.user);
+        email: values.email,
+        password: values.password,
+        photoURL
+      })
+      form.reset();
       push("rooms");
     } catch (e) {
       if (e instanceof FirebaseError) {

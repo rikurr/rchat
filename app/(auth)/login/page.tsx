@@ -15,11 +15,10 @@ import {
   FormMessage,
 } from "@/common/components/ui/form";
 import { useForm } from "react-hook-form";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
-import { initializeFirebaseApp } from "@/lib/firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { loginUser } from "@/features/auth/loginUser";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -40,9 +39,10 @@ export default function SignUp() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      initializeFirebaseApp();
-      const auth = getAuth();
-      await signInWithEmailAndPassword(auth, values.email, values.password);
+      await loginUser({
+        email: values.email,
+        password: values.password,
+      });
       form.reset();
       push("rooms");
     } catch (e) {
