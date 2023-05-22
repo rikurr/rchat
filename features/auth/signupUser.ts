@@ -15,17 +15,7 @@ import {
   setDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { z } from "zod";
-
-const userDocument = z
-  .object({
-    displayName: z.string().nullable(),
-    email: z.string(),
-    photoURL: z.string().nullable(),
-  })
-  .optional();
-
-export type UserDocument = z.infer<typeof userDocument>;
+import { userDocument } from "@/schema/userSchama";
 
 // ユーザードキュメントの作成
 export const createUserProfileDocument = async (user: User) => {
@@ -86,7 +76,10 @@ export const signupUser = async (userValues: UserValues) => {
   );
 
   const storageUrl = userValues.photoURL
-    ? await uploadUserProfileImageToStorage(userCredential.user.uid, userValues.photoURL)
+    ? await uploadUserProfileImageToStorage(
+        userCredential.user.uid,
+        userValues.photoURL,
+      )
     : null;
   await updateProfile(userCredential.user, {
     displayName: userValues.displayName,

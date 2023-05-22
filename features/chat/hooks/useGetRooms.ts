@@ -1,7 +1,7 @@
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import useSWR from "swr";
 import { getApp } from "firebase/app";
-import { roomDocumentList } from "../roomDocument";
+import { roomDocumentList } from "../../../schema/roomSchema";
 
 export const useGetRooms = () => {
   const app = getApp();

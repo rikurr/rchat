@@ -1,6 +1,6 @@
 "use client";
 
-import { RoomDocument } from "@/features/chat/roomDocument";
+import { RoomDocument } from "@/schema/roomSchema";
 import Link from "next/link";
 import React, { FC } from "react";
 import { Plus } from "lucide-react";

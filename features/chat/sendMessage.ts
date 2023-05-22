@@ -17,6 +17,7 @@ export const sendMessage = async (roomId: string, message: string) => {
   try {
     await addDoc(messagesCollection, {
       text: message,
+      type: "text",
       sentBy: currentUser.uid,
       createdAt: serverTimestamp(),
     });
