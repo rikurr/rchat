@@ -26,7 +26,7 @@ export default function RootLayout({
         <ToasterProvider>
           <body className={cn("h-screen", inter.className)}>
             <Header />
-            <main className="py-10">
+            <main>
               {children}
             </main>
           </body>

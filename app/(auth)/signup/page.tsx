@@ -58,7 +58,7 @@ export default function SignUp() {
         photoURL
       })
       form.reset();
-      push("rooms");
+      push("dashboard");
     } catch (e) {
       if (e instanceof FirebaseError) {
         console.dir(e);
