@@ -6,15 +6,11 @@ import { useRouter } from "next/navigation";
 import { useGetRooms } from "@/features/chat/hooks/useGetRooms";
 
 export const RoomList = () => {
-  const { data, isLoading } = useGetRooms();
+  const { rooms, loading } = useGetRooms();
   const { push } = useRouter();
 
-  if (isLoading) {
-    return <div>読み込み中...</div>;
-  }
-
-  if (!data) {
-    return <div>no data</div>;
+  if (loading) {
+    return <div></div>;
   }
 
   return (
@@ -25,7 +21,7 @@ export const RoomList = () => {
         </Button>
       </div>
       <ul>
-        {data.map((room) => (
+        {rooms.map((room) => (
           <li key={room.id} className="hover:bg-slate-100">
             <Link href={`/room/${room.id}`} className="p-4 block">
               <h3 className="text-md font-semibold">{room.name}</h3>

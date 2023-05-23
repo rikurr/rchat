@@ -1,23 +1,37 @@
-import { collection, getDocs, getFirestore } from "firebase/firestore";
-import useSWR from "swr";
+import { useEffect, useState } from "react";
+import { collection, onSnapshot, getFirestore } from "firebase/firestore";
 import { getApp } from "firebase/app";
-import { roomDocumentList } from "../../../schema/roomSchema";
+import { RoomDocument, roomDocumentList } from "@/schema/roomSchema";
 
 export const useGetRooms = () => {
-  const app = getApp();
-  const db = getFirestore(app);
-  const key = "rooms";
+  const [rooms, setRooms] = useState<RoomDocument[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<unknown>(null);
 
-  const fetcher = async () => {
-    const roomRef = collection(db, key);
-    const roomSnapshot = await getDocs(roomRef);
+  useEffect(() => {
+    const app = getApp();
+    const db = getFirestore(app);
 
-    const rooms = roomSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const roomRef = collection(db, "rooms");
 
-    return roomDocumentList.parse(rooms);
-  };
-  return useSWR(key, fetcher);
+    const unsubscribe = onSnapshot(
+      roomRef,
+      (snapshot) => {
+        const newDocs = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setRooms(roomDocumentList.parse(newDocs));
+        setLoading(false);
+      },
+      (error) => {
+        setError(error);
+      },
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  return { rooms, loading, error };
 };

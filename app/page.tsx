@@ -22,7 +22,7 @@ export default function Home() {
   }, [user, push]);
 
   if (typeof user === "undefined") {
-    return <div>読み込み中...</div>;
+    return <div></div>;
   }
 
   return <></>;
