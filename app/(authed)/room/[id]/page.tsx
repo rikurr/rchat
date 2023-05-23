@@ -17,14 +17,12 @@ import { FirebaseError } from "firebase/app";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useSnapshotMessages } from "@/features/chat/hooks/useSnapshotMessages";
-import { sendMessage } from "@/features/chat/sendMessage";
+import { sendMessage } from "@/features/chat/utils/sendMessage";
 import { useGetRoom } from "@/features/chat/hooks/useGetRoom";
 import { Message } from "./components/message";
 
 const formSchema = z.object({
-  message: z.string().min(1, {
-    message: "1文字以上の文字を入力してくさい",
-  }),
+  message: z.string(),
 });
 
 export default function Room() {
@@ -87,7 +85,7 @@ export default function Room() {
                   <FormControl>
                     <input
                       className="flex-1 border rounded py-2 px-3 mr-4 text-sm text-gray-700"
-                      placeholder=""
+                      placeholder="コマンド+Enterで送信"
                       {...form.register("message")}
                     />
                   </FormControl>

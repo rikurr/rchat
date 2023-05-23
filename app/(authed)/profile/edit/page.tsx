@@ -24,9 +24,8 @@ import { useForm } from "react-hook-form";
 
 import { FirebaseError } from "firebase/app";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { FileUploadButton } from "@/common/components/ui/fileUpload";
-import { editUserProfile, signupUser } from "@/features/auth/postUser";
+import { editUserProfile } from "@/features/auth/utils/postUser";
 import { useAuthContext } from "@/features/auth/AuthProvider";
 
 const formSchema = z.object({
@@ -36,7 +35,6 @@ const formSchema = z.object({
 });
 
 export default function SignUp() {
-  const { push } = useRouter();
   const { user } = useAuthContext();
 
   const [photoURL, setPhotoURL] = useState<string | null>(
@@ -113,6 +111,9 @@ export default function SignUp() {
               <FileUploadButton setValue={setPhotoURL}>
                 プロフィール画像のアップロード
               </FileUploadButton>
+              <Button type="button" onClick={() => setPhotoURL("")}>
+                画像をリセットする
+              </Button>
             </div>
           </div>
 

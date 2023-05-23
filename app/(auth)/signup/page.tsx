@@ -26,7 +26,7 @@ import { FirebaseError } from "firebase/app";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FileUploadButton } from "@/common/components/ui/fileUpload";
-import { signupUser } from "@/features/auth/postUser";
+import { signupUser } from "@/features/auth/utils/postUser";
 
 const formSchema = z.object({
   displayName: z.string().min(2, {

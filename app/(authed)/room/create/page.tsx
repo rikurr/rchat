@@ -18,11 +18,11 @@ import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createRoom } from "@/features/chat/createRoom";
+import { createRoom } from "@/features/chat/utils/createRoom";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "ルーム名は2文字以上入力してください",
+  name: z.string().min(1, {
+    message: "ルーム名は1文字以上入力してください",
   }),
 });
 

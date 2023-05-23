@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { FirebaseError } from "firebase/app";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { loginUser } from "@/features/auth/loginUser";
+import { loginUser } from "@/features/auth/utils/loginUser";
 
 const formSchema = z.object({
   email: z.string().email({

@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from "@/common/components/ui/popover";
 import { useAuthContext } from "@/features/auth/AuthProvider";
-import { logoutUser } from "@/features/auth/logoutUser";
+import { logoutUser } from "@/features/auth/utils/logoutUser";
 
 export const UserAvatar = () => {
   const { user } = useAuthContext();
@@ -22,6 +22,8 @@ export const UserAvatar = () => {
   if (!user) {
     return <></>;
   }
+
+  console.log("変更", user)
 
   return (
     <Popover>

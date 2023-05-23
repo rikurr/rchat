@@ -99,16 +99,16 @@ export const editUserProfile = async (userValues: EditUserValues) => {
   const auth = getAuth();
   if (!auth.currentUser) throw new Error("User not logged in");
 
-  const storageUrlOrNull = userValues.photoURL
-    ? await uploadUserProfileImageToStorage(
+  let photoURL = userValues.photoURL;
+  if(userValues.photoURL && userValues.photoURL !== auth.currentUser.photoURL ) {
+    photoURL = await uploadUserProfileImageToStorage(
         auth.currentUser.uid,
         userValues.photoURL,
       )
-    : null;
-
+  }
   await updateProfile(auth.currentUser, {
     displayName: userValues.displayName,
-    photoURL: storageUrlOrNull,
+    photoURL: photoURL,
   });
 
   const db = getFirestore();
@@ -118,7 +118,7 @@ export const editUserProfile = async (userValues: EditUserValues) => {
     userRef,
     {
       displayName: userValues.displayName,
-      photoURL: storageUrlOrNull,
+      photoURL: photoURL,
     },
     { merge: true },
   );
