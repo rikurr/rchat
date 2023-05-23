@@ -17,10 +17,6 @@ export const AuthGuard = ({ children }: Props) => {
       push("/login");
       return;
     }
-    if (user) {
-      push("dashboard");
-      return;
-    }
   }, [user, push]);
 
   if (typeof user === "undefined") {

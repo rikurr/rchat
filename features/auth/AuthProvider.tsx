@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       const auth = getAuth();
       return onAuthStateChanged(auth, async (user) => {
-        console.log("user", user);
         setUser({ user });
       });
     } catch (error) {

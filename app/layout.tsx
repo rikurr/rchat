@@ -1,8 +1,6 @@
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
-import { ToasterProvider } from "@/common/providers/ToasterProvider";
 import { AuthProvider } from "@/features/auth/AuthProvider";
-import { Header } from "../common/layouts/Header";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,9 +8,8 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: {
     default: "rchat",
-    template: `%s | rchat`,
   },
-  description: "チャットアプリ",
+  description: "チャットアプリケーション",
 };
 
 export default function RootLayout({
@@ -23,14 +20,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <AuthProvider>
-        <ToasterProvider>
-          <body className={cn("h-screen", inter.className)}>
-            <Header />
-            <main>
-              {children}
-            </main>
-          </body>
-        </ToasterProvider>
+        <body className={cn("h-screen", inter.className)}>
+          <main>{children}</main>
+        </body>
       </AuthProvider>
     </html>
   );

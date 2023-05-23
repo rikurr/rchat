@@ -13,16 +13,10 @@ export const createRoom = async (roomName: string) => {
 
   if (!currentUser) throw new Error("User not logged in");
 
-  try {
-    const docRef = await addDoc(roomsCollection, {
-      name: roomName,
-      createdBy: currentUser.uid,
-      createdAt: serverTimestamp(),
-    });
-    console.log("Room created with ID: ", docRef.id);
-    return docRef.id;
-  } catch (e) {
-    console.error("Error adding document: ", e);
-    throw e;
-  }
+  const docRef = await addDoc(roomsCollection, {
+    name: roomName,
+    createdBy: currentUser.uid,
+    createdAt: serverTimestamp(),
+  });
+  return docRef.id;
 };

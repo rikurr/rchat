@@ -47,7 +47,7 @@ export const useSnapshotMessages = (roomId: string) => {
 
         // ユーザーデータをマージする
         messageData.user = userCache[messageData.sentBy];
-        const resultData = { id: docSnapshot.id, ...messageData };
+        const resultData = { id: docSnapshot.id, ...messageData, createdAt: messageData.createdAt?.seconds ? new Date(messageData.createdAt?.seconds * 1000).getTime() : 0 };
         return messageInUserDocument.parse(resultData);
       });
 

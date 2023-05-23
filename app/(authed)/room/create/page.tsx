@@ -48,30 +48,35 @@ export default function RoomCreate() {
   };
 
   return (
-    <div>
-      <h1 className="text-xl font-bold">ルームの作成</h1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={() => (
-              <FormItem>
-                <FormLabel>ルーム名</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...form.register("name")} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div className="flex justify-center py-10 px-4 h-full">
+      <div className="max-w-sm w-full">
+        <h1 className="text-xl font-bold">ルームの作成</h1>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 mt-4"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={() => (
+                <FormItem>
+                  <FormLabel>ルーム名</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" {...form.register("name")} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button type="submit" className="w-full">
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            作成
-          </Button>
-        </form>
-      </Form>
+            <Button type="submit" className="w-full">
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              作成
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }

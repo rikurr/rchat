@@ -14,15 +14,10 @@ export const sendMessage = async (roomId: string, message: string) => {
   const { currentUser } = getAuth();
   if (!currentUser) throw new Error("User not logged in");
 
-  try {
-    await addDoc(messagesCollection, {
-      text: message,
-      type: "text",
-      sentBy: currentUser.uid,
-      createdAt: serverTimestamp(),
-    });
-    console.log("Message sent to room ", roomId);
-  } catch (e) {
-    console.error("Error sending message: ", e);
-  }
+  await addDoc(messagesCollection, {
+    text: message,
+    type: "text",
+    sentBy: currentUser.uid,
+    createdAt: serverTimestamp(),
+  });
 };

@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore";
 import { z } from "zod";
 import { userDocument } from "./userSchama";
 
@@ -7,7 +6,7 @@ export const roomDocument = z.object({
   id: z.string(),
   name: z.string(),
   createdBy: z.string(),
-  createdAt: z.instanceof(Timestamp),
+  // createdAt: z.instanceof(Timestamp),
 });
 export const roomDocumentList = z.array(roomDocument);
 export type RoomDocument = z.infer<typeof roomDocument>;
@@ -18,7 +17,7 @@ export const messageDocument = z.object({
   type: z.string(),
   text: z.string(),
   sentBy: z.string(),
-  createdAt: z.instanceof(Timestamp),
+  createdAt: z.number(),
 });
 export const messageDocumentList = z.array(messageDocument);
 export type MessageDocument = z.infer<typeof messageDocument>;

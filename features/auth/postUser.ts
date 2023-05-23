@@ -18,7 +18,7 @@ import {
 import { userDocument } from "@/schema/userSchama";
 
 // ユーザードキュメントの作成
-export const createUserProfileDocument = async (user: User) => {
+const createUserProfileDocument = async (user: User) => {
   const db = getFirestore();
   const userRef = doc(db, "users", user.uid);
 
@@ -59,14 +59,14 @@ const uploadUserProfileImageToStorage = async (userId: string, url: string) => {
 };
 
 // 新規ユーザーの作成
-type UserValues = {
+type CreateUserValues = {
   displayName: string;
   email: string;
   password: string;
   photoURL: string | null;
 };
 
-export const signupUser = async (userValues: UserValues) => {
+export const signupUser = async (userValues: CreateUserValues) => {
   initializeFirebaseApp();
   const auth = getAuth();
   const userCredential = await createUserWithEmailAndPassword(
@@ -87,4 +87,39 @@ export const signupUser = async (userValues: UserValues) => {
   });
   createUserProfileDocument(userCredential.user);
   await sendEmailVerification(userCredential.user);
+};
+
+type EditUserValues = {
+  displayName: string;
+
+  photoURL: string | null;
+};
+export const editUserProfile = async (userValues: EditUserValues) => {
+  initializeFirebaseApp();
+  const auth = getAuth();
+  if (!auth.currentUser) throw new Error("User not logged in");
+
+  const storageUrlOrNull = userValues.photoURL
+    ? await uploadUserProfileImageToStorage(
+        auth.currentUser.uid,
+        userValues.photoURL,
+      )
+    : null;
+
+  await updateProfile(auth.currentUser, {
+    displayName: userValues.displayName,
+    photoURL: storageUrlOrNull,
+  });
+
+  const db = getFirestore();
+  const userRef = doc(db, "users", auth.currentUser.uid);
+  // ユーザーの更新
+  await setDoc(
+    userRef,
+    {
+      displayName: userValues.displayName,
+      photoURL: storageUrlOrNull,
+    },
+    { merge: true },
+  );
 };

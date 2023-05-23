@@ -78,7 +78,7 @@ export default function SignUp() {
               <FormItem>
                 <FormLabel>パスワード</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...form.register("password")} />
+                  <Input placeholder="" type="password" {...form.register("password")} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -17,8 +17,7 @@ export const useGetRooms = () => {
       ...doc.data(),
     }));
 
-    console.log(rooms);
     return roomDocumentList.parse(rooms);
   };
-  return useSWR(JSON.stringify(key), fetcher);
+  return useSWR(key, fetcher);
 };
