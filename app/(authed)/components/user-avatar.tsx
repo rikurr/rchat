@@ -23,8 +23,6 @@ export const UserAvatar = () => {
     return <></>;
   }
 
-  console.log("変更", user)
-
   return (
     <Popover>
       <PopoverTrigger>
