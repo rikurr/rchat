@@ -1,4 +1,10 @@
 # チャットアプリ
+
+Demo（来週中には削除する予定です）
+
+https://rchat-eight.vercel.app/
+
+
 ## 技術選定
 
 ### 全体設計
