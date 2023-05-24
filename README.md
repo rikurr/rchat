@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# チャットアプリ
+## 技術選定
 
-## Getting Started
+### 全体設計
 
-First, run the development server:
+- Next.js
+- Firebase Firestore
+- Firebase Auth
+- Tailwind CSS
+- Radix UI
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 技術選定について
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Next.js
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- 様々なレンダリング方式のサポートと、ルーティングやコードの最適化など必要な機能を提供しているため
+- 今回はサーバーコンポーネントについては、あまり使用できていません。
 
-## Learn More
+#### CSS
 
-To learn more about Next.js, take a look at the following resources:
+- 今までCSS Module やEmotionを使用することが多かったが、Nexe.jsのサーバーコンポーネントでの対応状況を考えCSS modulesやTailwind CSSを選択
+- shadcn uiというRadix UI + Tailwind CSSを利用したコンポーネント集を利用したかったので、Tailwind CSSを利用する
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Firebase Firestore
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- クライアント側の実装のみでリアルタイムな更新を実現でき、サーバーレスで自動でスケールできるため、バックエンドの実装が不要になるため
