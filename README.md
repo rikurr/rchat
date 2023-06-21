@@ -1,6 +1,6 @@
 # チャットアプリ
 
-Demo（来週中には削除する予定です）
+Demo（削除済み）
 
 https://rchat-eight.vercel.app/
 
@@ -16,7 +16,7 @@ https://rchat-eight.vercel.app/
 - Radix UI
 
 
-### 技術選定について
+### 技術選定
 
 #### Next.js
 
